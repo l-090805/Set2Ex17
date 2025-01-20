@@ -2,51 +2,58 @@
 {
     internal class Program
     {
-        public static (bool,int) VerificareParanteze(int[] secventa)
+        static void Main(string[] args)
         {
-           int nivelCurent = 0;
-           int nivelMax = 0;
-            foreach(int paranteza in secventa)
+            Console.WriteLine("Numarul de elemente din secventa: ");
+            int n = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("Introduceti secventa (0 pentru paranteza deschisa, 1 pentru paranteza inchisa): ");
+            int count = 0; 
+            int maxNivel = 0; 
+
+            bool esteCorecta = true;
+
+            for (int i = 0; i < n; i++)
             {
-                if (paranteza == 0)
+                int element = int.Parse(Console.ReadLine());
+
+                if (element == 0)
                 {
-                    nivelCurent++;
-                    if (nivelCurent >= nivelMax)
+                    count++;
+                    if (count > maxNivel)
                     {
-                        nivelMax = nivelCurent;
+                        maxNivel = count;
                     }
                 }
-                else if (paranteza == 1)
+                else if (element == 1)
                 {
-                    nivelCurent--;
-                    if (nivelCurent < 0)
+                    count--;
+                    if (count < 0)
                     {
-                        return (false, 0);
+                        esteCorecta = false;
+                        break;
                     }
                 }
                 else
                 {
-                    return(false, 0);
+                    Console.WriteLine("Element invalid. Secventa trebuie sa contina doar 0 si 1.");
+                    return;
                 }
             }
-            return (nivelCurent == 0, nivelMax);
-        }
-        static void Main(string[] args)
-        {
-            Console.WriteLine("introdu o seire de parantexe(0 pt paranteza deschisa si 1 pentru inchisa, separate prin spatiu): ");
-            string input = Console.ReadLine();
-            int[] secventa = Array.ConvertAll(input.Split(' '), int.Parse);
 
-            var(corecta,nivelMaxim) = VerificareParanteze(secventa);
-
-            if (corecta)
+            if (count != 0)
             {
-                Console.WriteLine("Secvența este corectă.");
-                Console.WriteLine("Nivelul maxim de incuibare este: " + nivelMaxim);
+                esteCorecta = false;
+            }
+
+            if (esteCorecta)
+            {
+                Console.WriteLine("Secventa este corecta.");
+                Console.WriteLine($"Nivelul maxim de incuibare este {maxNivel}.");
             }
             else
             {
-                Console.WriteLine("Secvența este incorectă.");
+                Console.WriteLine("Secventa NU este corecta.");
             }
         }
     }
